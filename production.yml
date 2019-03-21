@@ -4,9 +4,6 @@ sources:
       sql_expr: SELECT date,api,volume_oil_formation_bbls,volume_gas_formation_mcf,volume_water_formation_bbls FROM {{schema}}.production_all
         WHERE state='{{state}}'
       sql_kwargs:
-        index_col:
-        - api
-        - date
         parse_dates:
         - date
       uri: postgresql://{{bazean_postgres_username}}:{{bazean_postgres_password}}@{{subdomain}}.bazean.com:5432/db
@@ -31,6 +28,20 @@ sources:
         type: str
         default: "public"
       state:
-        description: "Bazean PostgresSQL database schema"
+        description: "State to query production"
+        type: str
+        allowed: ["ND", "NM", "TX"]
+  production_by_state_csv:
+    args:
+      urlpath: '{{ CATALOG_DIR }}/{{state}}_production.csv' 
+      csv_kwargs:
+        parse_dates:
+        - 1 
+    description: 'Production History For All Wells in {{state}}'
+    driver: intake.source.csv.CSVSource
+    metadata: {}
+    parameters:
+      state:
+        description: "State to query production"
         type: str
         allowed: ["ND", "NM", "TX"]
