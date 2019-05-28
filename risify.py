@@ -15,25 +15,27 @@ with open(sys.argv[-1], "r+") as f:
 
     data = json.load(f)
 
-    # Add livereaveal metadata if it does not exist
+    # Add rise metadata if it does not exist
 
-    data["metadata"]["livereveal"] = {
+    data["metadata"]["rise"] = {
         "footer": "<img src='images/daytum.png' width='220'>",
         "progress": True,
         "scroll": True,
         "theme": "simple",
         "slideNumber": False,
         "auto_select": None,
+        "enable_chalkboard": False,
+        "controls": True,
     }
 
     # Can be changed to True if you wish the slides to autolaunch
     if basename != "index":
-        data["metadata"]["livereveal"]["autolaunch"] = False
+        data["metadata"]["rise"]["autolaunch"] = False
 
     new_cell_list = []
     for cell in data["cells"]:
 
-        # Again, switch to True if you want to hill *all* code cells
+        # Again, switch to True if you want to hide *all* code cells
         if "code" in cell:
             if "metadata" not in cell:
                 cell["metadata"] = {}
